@@ -26,7 +26,7 @@ function login(event) {
         Cookies.set("username", responseData.username);
         Cookies.set("token", responseData.token);
 
-        window.location.href = '../../index.html';
+        window.location.href = '../index.html';
     }
 });
 }
@@ -45,7 +45,7 @@ function logout() {
         Cookies.remove("username");
         Cookies.remove("token");
 
-        window.location.href = '../../index.html';
+        window.location.href = '../index.html';
 
     }
 });
