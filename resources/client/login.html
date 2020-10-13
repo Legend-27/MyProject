@@ -1,28 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Demo page</title>
-    <link rel="stylesheet" type="text/css" href="/client/css/styles.css">
-    <script src="/client/js/js.cookie.js"></script>
-    <script src="/client/js/login.js"></script>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.js"></script>
+    <script>
+
+        function postUserLogin() {
+            console.log("Invoked postUserLogin() ");
+
+            var url = "/user/login";
+            var formData = new FormData(document.getElementById('loginForm'));
+
+            fetch(url, {
+                method: "POST",
+                body: formData,
+            }).then(response => {
+                return response.json();                 //now return that promise to JSON
+            }).then(response => {
+                if (response.hasOwnProperty("Error")) {
+                    alert(JSON.stringify(response));        // if it does, convert JSON object to string and alert
+                } else {
+                    Cookies.set("token", response.token);
+                    Cookies.set("username", response.username);
+                    window.open("index.html", "_self");       //open reviews.html in same tab
+                }
+            });
+        }
+    </script>
+
 </head>
-<body onload="pageLoad()">
-<div id="content">
-    <h1>Please log in to continue...</h1>
-    <hr />
-    <form id="loginForm">
-        <div class="loginDiv">
-            <label for="username">Username: </label>
-            <input type="text" name="username" id="username">
-        </div>
-        <div class="loginDiv">
-            <label for="password">Password: </label>
-            <input type="password" name="password" id="password">
-        </div>
-        <div class="loginDiv">
-            <input type="submit" value="Login" id="loginButton">
-        </div>
-    </form>
-</div>
+<body>
+
+<form id="loginForm">
+    <input type="text" name="username" id="username">
+    <input type="password" name="password" id="password">
+</form>
+<button class="button" onclick='postUserLogin();'>LOGIN</button>
+
 </body>
 </html>
+
