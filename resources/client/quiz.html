@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        "use strict";
+
+        function getQuestionList() {
+            console.log("Invoked getQuestionList()");		//console.log your BFF for debugging client side
+
+            const dateEaten = document.getElementById("quizName").value;   //get value from date picker
+            const url = "/eaten//";		// API method on webserver will be in Eaten class with @Path of list
+
+            fetch(url + dateEaten, {        			// dateEaten as path param
+                method: "GET",
+            }).then(response => {
+                return response.json();                 //return response to JSON
+            }).then(response => {
+                if (response.hasOwnProperty("Error")) { //checks if response from server has a key "Error"
+                    alert(JSON.stringify(response));    // if it does, convert JSON object to string and alert
+                } else {
+                    formatEatenList(response);          //this function will create an HTML table of the data (as we
+                    // did in lesson 2
+                }
+            });
+        }
+
+    </script>
+
+</head>
+<body>
+
+</body>
+</html>
