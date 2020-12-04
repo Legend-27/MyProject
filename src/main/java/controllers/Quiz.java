@@ -43,13 +43,17 @@ public class Quiz {
         System.out.println("Invoked Questions.QuestionList()");
         JSONArray response = new JSONArray();
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT QuestionId, QuestionText FROM Questions WHERE QuizId = ?");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT QuestionId, QuestionText, AnswerA, AnswerB, AnswerC, AnswerD FROM Questions WHERE QuizId = ?");
             ps.setInt(1,quizId);
             ResultSet results = ps.executeQuery();
             while (results.next()==true) {
                 JSONObject row = new JSONObject();
                 row.put("QuestionId", results.getInt(1));
                 row.put("QuestionText", results.getString(2));
+                row.put("AnswerA", results.getString(3));
+                row.put("AnswerB", results.getString(4));
+                row.put("AnswerC", results.getString(5));
+                row.put("AnswerD", results.getString(6));
                 response.add(row);
             }
             return response.toString();
