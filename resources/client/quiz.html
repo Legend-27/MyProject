@@ -9,8 +9,8 @@
         function getQuestionList() {
             console.log("Invoked getQuestionList()");		//console.log your BFF for debugging client side
 
-            const dateEaten = document.getElementById("quizName").value;   //get value from date picker
-            const url = "/quiz/listQuestions/{quizId}";		// API method on webserver will be in Eaten class with @Path of list
+            let quizId = sessionStorage.getItem("QuizID")   //get QuizID from sessions storage
+            const url = "/quiz/listQuestions/";		// API method on webserver will be in Eaten class with @Path of list
 
             fetch(url + quizId, {        			// dateEaten as path param
                 method: "GET",
@@ -20,21 +20,30 @@
                 if (response.hasOwnProperty("Error")) { //checks if response from server has a key "Error"
                     alert(JSON.stringify(response));    // if it does, convert JSON object to string and alert
                 } else {
-                    formatQuestionList(response);          //this function will create an HTML table of the data (as we
-                    // did in lesson 2
+                    formatQuestionList(response);
                 }
             });
+
+        }
+
+        function formatQuestionList(response){
+            console.log(response);
+
             let dataHTML = "";
-            for (let item of myJSONArray) {                            //creates a table with rows for every item in JSON array and a button - how cool?  Very
-                dataHTML += "<tr><td>" + item.QuestionId + "</td><td>" + item.QuestionText + "</td><td>" + item.AnswerA + "</td><td>" + item.AnswerB + "</td><td>" + AnswerC + "</td><td>" + AnswerD + "</td></tr>";
+            for (let item of response) {                            //creates a table with rows for every item in JSON array and a button - how cool?  Very
+                dataHTML += "<tr><td>" + item.QuestionId + "</td><td>" + item.QuestionText + "</td><td>" + item.AnswerA + "</td><td>" + item.AnswerB + "</td><td>" + item.AnswerC + "</td><td>" + item.AnswerD + "</td></tr>";
             }
-            document.getElementById("QuestionTable").innerHTML += dataHTML;
+            document.getElementById("tblQuestions").innerHTML += dataHTML;
+
         }
 
     </script>
 
 </head>
-<body>
+<body onload="getQuestionList()">
+
+
+<table id="tblQuestions"></table>
 
 </body>
 </html>
