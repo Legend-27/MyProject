@@ -31,7 +31,10 @@
 
             let dataHTML = "";
             for (let item of response) {                            //creates a table with rows for every item in JSON array and a button - how cool?  Very
-                dataHTML += "<tr><td>" + item.QuestionId + "</td><td>" + item.QuestionText + "</td><td>" + item.AnswerA + "</td><td>" + item.AnswerB + "</td><td>" + item.AnswerC + "</td><td>" + item.AnswerD + "</td></tr>";
+                dataHTML += "<tr><td>" + item.QuestionId + "</td><td>" + item.QuestionText + "</td><td>" + "<button onclick= answerClick()>item.AnswerA</button>" + item.AnswerA + "</td><td>" + "<button onclick= answerClick() >item.AnswerB</button>" + item.AnswerB + "</td><td>" + item.AnswerC + "</td><td>" + item.AnswerD + "</td></tr>";
+                function answerClick(){
+                    alert("big chungus");
+                }
             }
             document.getElementById("tblQuestions").innerHTML += dataHTML;
 
