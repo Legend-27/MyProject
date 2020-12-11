@@ -43,7 +43,7 @@ public class Quiz {
         System.out.println("Invoked Questions.QuestionList()");
         JSONArray response = new JSONArray();
         try {
-            PreparedStatement ps = Main.db.prepareStatement("SELECT QuestionId, QuestionText, AnswerA, AnswerB, AnswerC, AnswerD FROM Questions WHERE QuizId = ?");
+            PreparedStatement ps = Main.db.prepareStatement("SELECT QuestionId, QuestionText, AnswerA, AnswerB, AnswerC, AnswerD, CorrectAnswer FROM Questions WHERE QuizId = ?");
             ps.setInt(1,quizId);
             ResultSet results = ps.executeQuery();
             while (results.next()==true) {

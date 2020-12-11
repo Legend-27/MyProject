@@ -31,9 +31,13 @@
 
             let dataHTML = "";
             for (let item of response) {                            //creates a table with rows for every item in JSON array and a button - how cool?  Very
-                dataHTML += "<tr><td>" + item.QuestionId + "</td><td>" + item.QuestionText + "</td><td>" + "<button onclick= answerClick()>item.AnswerA</button>" + item.AnswerA + "</td><td>" + "<button onclick= answerClick() >item.AnswerB</button>" + item.AnswerB + "</td><td>" + item.AnswerC + "</td><td>" + item.AnswerD + "</td></tr>";
-                function answerClick(){
-                    alert("big chungus");
+                dataHTML += "<tr><td>" + item.QuestionId + "</td><td>" + item.QuestionText + "</td><td>" + "<button class='alertItemName'  data-itemID='" + item.CorrectAnswer + "'>Click Me</button>" + item.AnswerA + "</td><td>" + "<button onclick= answerClick() >item.AnswerB</button>" + item.AnswerB + "</td><td>" + item.AnswerC + "</td><td>" + item.AnswerD + "</td></tr>";
+                document.addEventListener("click", function (event) {
+                    if (event.target.matches('.alertItemName')) {                      //alertItemName is the class we gave all the button elements
+                        var CorrectAnswer = event.target.getAttribute("data-itemID");        //data-itemID is an attribute we gave the button
+                        alert("You clicked on " + item.CorrectAnswer);
+                    }
+                });
                 }
             }
             document.getElementById("tblQuestions").innerHTML += dataHTML;
