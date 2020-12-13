@@ -6,6 +6,9 @@
     <script>
         "use strict";
 
+        let quizData;
+        let numberOfQuestions;
+
         function getQuestionList() {
             console.log("Invoked getQuestionList()");		//console.log your BFF for debugging client side
 
@@ -20,28 +23,42 @@
                 if (response.hasOwnProperty("Error")) { //checks if response from server has a key "Error"
                     alert(JSON.stringify(response));    // if it does, convert JSON object to string and alert
                 } else {
+                    quizData = response;
+                    numberOfQuestions = response.length;
                     formatQuestionList(response);
                 }
             });
 
         }
 
-        function formatQuestionList(response){
+        function formatQuestionList(response) {
             console.log(response);
 
             let dataHTML = "";
-            for (let item of response) {                            //creates a table with rows for every item in JSON array and a button - how cool?  Very
-                dataHTML += "<tr><td>" + item.QuestionId + "</td><td>" + item.QuestionText + "</td><td>" + "<button class='alertItemName'  data-itemID='" + item.CorrectAnswer + "'>Click Me</button>" + item.AnswerA + "</td><td>" + item.AnswerB + "</td><td>" + item.AnswerC + "</td><td>" + item.AnswerD + "</td></tr>";
-                document.addEventListener("click", function (event) {
-                    if (event.target.matches('.alertItemName')) {                      //alertItemName is the class we gave all the button elements
-                        var CorrectAnswer = event.target.getAttribute("data-itemID");        //data-itemID is an attribute we gave the button
-                        alert("You clicked on " + item.CorrectAnswer);
-                    }
-                });
-                }
+            let i = 0;  //used to access object in quizData JSON array
+            for (let item of response) {
+                dataHTML += "<BR>" + item.QuestionId + " " + item.QuestionText +
+                    "<input type='radio' name=question" + i + " value=" + item.AnswerA + ">" + item.AnswerA +
+                    "<input type='radio' name=question" + i + " value=" + item.AnswerB + ">" + item.AnswerB +
+                    "<input type='radio' name=question" + i + " value=" + item.AnswerC + ">" + item.AnswerC +
+                    "<input type='radio' name=question" + i + " value=" + item.AnswerD + ">" + item.AnswerD
+                i = i + 1;
             }
             document.getElementById("tblQuestions").innerHTML += dataHTML;
+        }
 
+        function checkAnswers(){
+            console.log("checkAnswers invoked");
+            let i = 0;  //used to generate the value of the name attribute
+            for (let item of quizData){   //for every question in the JSONArray
+
+                if (document.querySelector("input[name='question" + i + "']:checked").value == item.CorrectAnswer){
+                    alert("Correct");
+                } else {
+                    alert("Incorrect");
+                }
+                i = i + 1;
+            }
         }
 
     </script>
@@ -51,6 +68,8 @@
 
 
 <table id="tblQuestions"></table>
+
+<button onclick="checkAnswers()"> CHECK ANSWERS </button>
 
 </body>
 </html>

@@ -54,6 +54,7 @@ public class Quiz {
                 row.put("AnswerB", results.getString(4));
                 row.put("AnswerC", results.getString(5));
                 row.put("AnswerD", results.getString(6));
+                row.put("CorrectAnswer", results.getString(7));
                 response.add(row);
             }
             return response.toString();
